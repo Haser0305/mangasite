@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+
+    <title><%= title %></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--     避免連他網的圖片時，出現403-->
+    <meta name="referrer" content="no-referrer"/>
+
+    <link href="public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="public/css/bookShelfPage.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header>
+        <%- include ('partial/header') %>
+    </header>
+
+    <main id="container" class="container">
+        <div id="bookshelf-div">
+            <select id="bookshelf-select" class="form-select" aria-label="Default select example"
+                    onchange="change_bookshelf(this)">
+                <% if (bookShelf === '') { %>
+                    <option>All</option>
+                <% } else { %>
+                    <option value="">All</option>
+                    <option selected><%= bookShelf %></option>
+                <% } %>
+
+            </select>
+        </div>
+
+        <p>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#tags-selection"
+                    aria-expanded="false" aria-controls="tags-selection">
+                Additional tags
+            </button>
+        </p>
+
+        <div class="collapse" id="tags-selection">
+            <div class="additional-tags-div">
+                <button class="additional-tag-btn btn btn-outline-primary">test1</button>
+                <button class="additional-tag-btn tag-selected btn btn-outline-primary">test2</button>
+                <button class="additional-tag-btn btn btn-outline-primary">test3</button>
+                <button class="additional-tag-btn btn btn-outline-primary">test4</button>
+                <button class="additional-tag-btn btn btn-outline-primary">test5</button>
+            </div>
+        </div>
+
+        <% books.forEach((manga) => { %>
+            <div class="row row-cols-2 items">
+                <div class="col-6 col-lg-4 div-max-hg">
+                    <a href="/infoPage?source=<%= manga.booksource %>&id=<%= manga.bookid %>" class="img-a" target="_blank">
+                        <img class="cover-image img-fluid" src="<%= manga.coversrc %>">
+                    </a>
+                </div>
+                <div class="col-6 col-lg-8">
+                    <div class="row">
+                        <div class="div-info">
+                            <a href="/infoPage?source=<%= manga.booksource %>&id=<%= manga.bookid %>" target="_blank">
+                                <p>Name:<br>　　</p>
+                                <p><%= manga.bookname %></p>
+                            </a>
+
+                        </div>
+                        <div class="div-info div-info-button">
+                            <p>來源：<%= manga.booksource %></p>
+                            <p>書櫃：<%= manga.shelfname %></p>
+                        </div>
+                    </div>
+                    <div class="row row-cols-1 justify-content-center">
+                        <div class="col button-div">
+                            <button class="my-btn btn btn-outline-primary modify-bookshelf-btn" type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#bookshelf_dialog"
+                                    onclick="change_btn_dataset(this)"
+                                    data-book-id="<%= manga.bookid %>"
+                                    data-book-source="<%= manga.booksource %>"
+                                    data-book-name="<%= manga.bookname %>"
+                                    data-book-img="<%= manga.coversrc %>"
+                            >修改
+                            </button>
+                        </div>
+                        <div class="col button-div">
+                            <button class="my-btn btn btn-outline-danger" type="button"
+                                    data-book-id=<%= manga.bookid %> data-book-source=<%= manga.booksource %>
+                                    onclick="delete_book(this)"
+                            >刪除
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+
+    </main>
+
+
+    <div class="modal fade" id="bookshelf_dialog" tabindex="-1" role="dialog"
+         aria-labelledby="bookshelf_dialogLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">選擇書櫃</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <select class="form-select" aria-label="Default select example">
+                                <option>預設</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <button id="add_new_bookshelf_btn" class="btn btn-outline-primary" type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#new_option_modal">新增書櫃
+                            </button>
+                            <!--                            <button id="add_new_bookshelf_btn" class="btn btn-primary>">增加書櫃</button>-->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="add-bookshelf-cancel-btn" type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">取消
+                    </button>
+                    <button id="modify-check-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">確定修改
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="new_option_modal" tabindex="-1" role="dialog"
+         aria-labelledby="bookshelf_dialogLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">選擇書櫃</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="new-bookshelf-name" type="text" class="form-control" placeholder="書櫃名稱"
+                           aria-label="BookshelfName" aria-describedby="basic-addon1">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button id="new-bookshelf-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">新增此書櫃
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="message-alert" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--                    <h5 class="modal-title"></h5>-->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="alert-message-body"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="fixed-bottom" aria-label="Page navigation">
+        <%- include ('partial/page_navigation') %>
+    </nav>
+
+
+    <!--    delete confirm-->
+
+    <div class="modal fade" id="delete-confirm" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">刪除確定</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    確定刪除?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" id="delete">確定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="public/js/bootstrap.min.js"></script>
+    <script src="public/js/axios.min.js"></script>
+
+</body>
+
+<script>
+
+    axios.get('/bookshelf_name', {headers: {'Authorization': getCookie('token')}})
+        .then(response => {
+            let selection = document.querySelector('#bookshelf-select');
+            response.data.forEach(option => {
+                if (option === '<%= bookShelf %>')
+                    return;
+                let new_option = document.createElement('option');
+                new_option.innerHTML = option;
+                selection.appendChild(new_option);
+            });
+        });
+
+    function change_bookshelf(event) {
+        // console.log(event.value);
+        location.href = '/bookShelf?bookshelf=' + event.value;
+    }
+
+    function getBookshelf() {
+        axios.get('/bookshelf_name', {headers: {'Authorization': getCookie('token')}})
+            .then(response => {
+                let selection = document.getElementsByTagName('select')[1];
+                if (response.data.length) {
+                    selection.innerHTML = '';
+                }
+                response.data.forEach(option => {
+                    let new_option = document.createElement('option');
+                    new_option.innerHTML = option;
+                    selection.appendChild(new_option);
+                });
+            })
+    }
+
+    // function show_delete_confirm() {
+    //
+    // }
+
+    function delete_book(buttonData) {
+        let modal = new bootstrap.Modal(document.getElementById('delete-confirm'));
+        modal.show()
+        document.querySelector('#delete').onclick = (() => {
+            modal.hide();
+            axios.delete(`/bookShelf?bookID=${buttonData.dataset.bookId}&bookSource=${buttonData.dataset.bookSource}`, {headers: {'Authorization': getCookie('token')}})
+                .then(response => {
+                    console.log(response);
+                    message_alert('刪除成功');
+                });
+        })
+    }
+
+    function change_btn_dataset(btn) {
+        console.log('change btn');
+        document.querySelector('#modify-check-btn').dataset.bookId = btn.dataset.bookId;
+        document.querySelector('#modify-check-btn').dataset.bookSource = btn.dataset.bookSource;
+        document.querySelector('#modify-check-btn').dataset.bookName = btn.dataset.bookName;
+        document.querySelector('#modify-check-btn').dataset.bookImg = btn.dataset.bookImg;
+    }
+
+
+    function message_alert(message) {
+        let modal = new bootstrap.Modal(document.getElementById('message-alert'));
+
+        document.getElementById('message-alert').addEventListener('hidden.bs.modal', () => {
+            location.reload();
+        })
+
+        document.getElementById('alert-message-body').innerHTML = message;
+
+        modal.show();
+
+    }
+
+    let modify_bookshelf = (bookName, bookShelfName, imgSrc, bookId, bookSource) => {
+        return new Promise((resolve => {
+            axios.post('/bookshelf', {
+                "bookid": bookId,
+                "book_name": bookName,
+                "shelf_name": bookShelfName,
+                "source": bookSource,
+                "imgSrc": imgSrc
+            }, {
+                headers: {'Authorization': getCookie('token')}
+            }).then(response => {
+                resolve(resolve);
+            })
+        }))
+    }
+
+    window.onload = () => {
+
+        document.getElementById('modify-check-btn').addEventListener('click', async (btn) => {
+            console.log(btn.target.dataset);
+
+            await modify_bookshelf(
+                btn.target.dataset.bookName,
+                document.getElementsByTagName('select')[1].value,
+                btn.target.dataset.bookImg,
+                btn.target.dataset.bookId,
+                btn.target.dataset.bookSource
+            );
+            message_alert('修改成功');
+        });
+
+        document.getElementById('bookshelf_dialog').addEventListener('show.bs.modal', () => {
+            getBookshelf();
+        })
+
+        document.getElementById('new-bookshelf-name').addEventListener('keyup', (event) => {
+            if (event.keyCode === 13) {
+                document.getElementById('new-bookshelf-btn').click();
+            }
+        })
+
+        document.getElementById('new-bookshelf-btn').addEventListener('click', async () => {
+            let new_bookshelf_name = document.getElementById('new-bookshelf-name').value;
+
+            await modify_bookshelf(
+                document.querySelector('#modify-check-btn').dataset.bookName,
+                new_bookshelf_name,
+                document.querySelector('#modify-check-btn').dataset.bookImg,
+                document.querySelector('#modify-check-btn').dataset.bookId,
+                document.querySelector('#modify-check-btn').dataset.bookSource
+            );
+            message_alert('修改成功');
+            document.getElementById('add-bookshelf-cancel-btn').click();
+        });
+    }
+
+</script>
+</html>

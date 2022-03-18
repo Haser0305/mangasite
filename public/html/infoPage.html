@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>info</title>
+    <!--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
+
+    <!--     避免連他網的圖片時，出現403-->
+    <meta name="referrer" content="no-referrer"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/infoPage.css" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="mainPage.html">本本世界</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!--                    <li class="nav-item">-->
+                        <!--                        <a class="nav-link active" aria-current="page" href="#">Home</a>-->
+                        <!--                    </li>-->
+                        <!--                    <li class="nav-item">-->
+                        <!--                        <a class="nav-link" href="#">Link</a>-->
+                        <!--                    </li>-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="websites-selection" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                本本來源
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">source_1</a></li>
+                                <li><a class="dropdown-item" href="#">source_2</a></li>
+                                <!--                            <li>-->
+                                <!--                                <hr class="dropdown-divider">-->
+                                <!--                            </li>-->
+                                <!--                            <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+                            </ul>
+                        </li>
+                        <!--                    <li class="nav-item">-->
+                        <!--                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+                        <!--                    </li>-->
+                    </ul>
+                    <form class="d-flex" id="name-search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main id="container" class="container">
+        <div id="info-div" class="row row-cols-2">
+            <div class="col-6 col-lg-4 align-self-center">
+                <img id="cover-image" src="">
+            </div>
+            <div class="col-6 col-lg-8">
+                <div class="row h-75">
+                    <div id="div-name" class="div-info">
+                        <p>Name:</p>
+                    </div>
+                    <div id="div-type" class="div-info">
+                        <p>分類:</p>
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <!--                    <a href="" id="read-a-tag">-->
+                    <!--                        <button class="btn btn-outline-primary" type="button">閱讀</button>-->
+                    <!--                    </a>-->
+                    <!--                    -->
+                    <div class="col-7 col-lg-2 button-div">
+                        <a href="" id="read-a-tag">
+                            <button class="my-btn btn btn-outline-primary" type="button">閱讀</button>
+                        </a>
+                    </div>
+                    <div class="col-7 col-lg-2 button-div">
+                        <button id="add_bookshelf" class="my-btn btn btn-outline-primary" type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#bookshelf_dialog">加入書櫃
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="div-tags" class="div-info">
+                <p>Tags:</p>
+                <button class="btn btn-outline-primary">
+                    kljsdf
+                </button>
+                <button class="btn btn-outline-primary">
+                    ksdf
+                </button>
+                <button class="btn btn-outline-primary">
+                    rgreg
+                </button>
+                <button class="btn btn-outline-primary">
+                    dfg
+                </button>
+                <button class="btn btn-outline-primary">
+                    werdd
+                </button>
+
+            </div>
+        </div>
+    </main>
+
+
+    <div class="modal fade" id="bookshelf_dialog" tabindex="-1" role="dialog"
+         aria-labelledby="bookshelf_dialogLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">選擇書櫃</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <select class="form-select" aria-label="Default select example">
+                                <option>預設</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <button id="add_new_bookshelf_btn" class="btn btn-outline-primary" type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#new_option_modal">增加書櫃
+                            </button>
+                            <!--                            <button id="add_new_bookshelf_btn" class="btn btn-primary>">增加書櫃</button>-->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="add-bookshelf-cancel-btn" type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">取消
+                    </button>
+                    <button id="add_bookshelf_btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">加入書櫃
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="new_option_modal" tabindex="-1" role="dialog"
+         aria-labelledby="bookshelf_dialogLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">選擇書櫃</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="new-bookshelf-name" type="text" class="form-control" placeholder="書櫃名稱"
+                           aria-label="BookshelfName" aria-describedby="basic-addon1">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button id="new-bookshelf-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">新增此書櫃
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="message-alert" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--                    <h5 class="modal-title"></h5>-->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="alert-message-body"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <!--    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>-->
+    <!--    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-storage.js"></script>-->
+
+    <!--    <script>-->
+
+    <!--        // Your web app's Firebase configuration-->
+    <!--        const firebaseConfig = {-->
+    <!--            apiKey: "AIzaSyANKizY5AZsSA7cHEGdU6sthEoRnDB4jF0",-->
+    <!--            authDomain: "manga-viewer-bea46.firebaseapp.com",-->
+    <!--            projectId: "manga-viewer-bea46",-->
+    <!--            storageBucket: "manga-viewer-bea46.appspot.com",-->
+    <!--            messagingSenderId: "221832316430",-->
+    <!--            appId: "1:221832316430:web:2e8c866a65ce9151809e5f"-->
+    <!--        };-->
+    <!--        // Initialize Firebase-->
+    <!--        firebase.initializeApp(firebaseConfig);-->
+    <!--        //-->
+    <!--        var storage = firebase.storage();-->
+
+
+    <!--        console.log('init');-->
+    <!--    </script>-->
+
+    <script src="../js/infoPage_pre.js"></script>
+</body>
+</html>

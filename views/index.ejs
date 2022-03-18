@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+
+    <title><%= title %></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--     避免連他網的圖片時，出現403-->
+    <meta name="referrer" content="no-referrer"/>
+
+    <link href="public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="public/css/viewer.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <header>
+        <%- include ('partial/header') %>
+    </header>
+
+    <main class="container-fluid">
+        <div class="gallery" id="container">
+            <div class="row row-cols-2 row-cols-md-4 g-1" id="gallery-row">
+                <% manga_data['source_data'].forEach((source) => { source.data.forEach(manga => { %>
+                    <div class="col card text-center" oncontextmenu="contextmenu_event(this)" data-id="<%= manga.id %>" data-source="<%= source.source %>">
+                        <a href="/infoPage?source=<%= source.source %>&id=<%= manga.id %>">
+                            <img src=<%= manga['cover-src'] %>>
+                            <div class="card-body no-bottom-padding">
+                                <p class="card-title <%= source.source%>"><%= manga.name %></p>
+                                <p class="card-text"><%= manga.info %></p></p>
+                            </div>
+                        </a>
+                    </div>
+                <% })}); %>
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation">
+            <%- include ('partial/page_navigation') %>
+<!--            <ul class="pagination justify-content-between justify-content-center pagination-lg align-items-center">-->
+<!--                <li class="page-item <% if(page === 1) { %> disabled <% } %>">-->
+<!--                    &lt;!&ndash;                    <a class="page-link" href="/mainPage?page=<%= page - 1 %>"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                       aria-label="Previous">                    &ndash;&gt;-->
+<!--                    <a class="page-link" href="<% router %>?_s=<%= source %>&<%= href_string_before_page %>page=<%= page - 1 %>"-->
+<!--                       aria-label="Previous">-->
+<!--                        <span aria-hidden="true">&laquo;</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash;            <li class="page-item"><a class="page-link" href="#">1</a></li>&ndash;&gt;-->
+<!--                &lt;!&ndash;            <li class="page-item"><a class="page-link" href="#">2</a></li>&ndash;&gt;-->
+<!--                <div class="col-2 col-md-1">-->
+<!--                    <li class="page-item"><input id="page-input" class="form-control" type="number" placeholder=-->
+<!--                        <%= page %>-->
+<!--                        ></li>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash;            <li class="page-item"><a class="page-link" href="#">3</a></li>&ndash;&gt;-->
+<!--                <li class="page-item <% if(page === manga_data.total_page) { %> disabled <% } %>">-->
+<!--                    &lt;!&ndash;                    <a class="page-link" href="/mainPage?page=<%= page + 1 %>" aria-label="Next">&ndash;&gt;-->
+<!--                    <a class="page-link" href="<% router %>?_s=<%= source %>&<%= href_string_before_page %>page=<%= page + 1 %>"-->
+<!--                       aria-label="Next">-->
+<!--                        <span aria-hidden="true">&raquo;</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+        </nav>
+
+    </main>
+
+    <script src="public/js/bootstrap.min.js"></script>
+    <script src="public/js/axios.min.js"></script>
+    <script src="public/js/index.js"></script>
+
+</body>
+</html>

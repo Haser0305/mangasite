@@ -1,0 +1,105 @@
+html {
+    /*height: 100%;*/
+    width: 100%;
+    height: 100vh;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+
+    background-color: #dbdbdb;
+}
+
+.items {
+    /*height: 40vh;*/
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.navbar {
+    background-color: #605f5f !important;
+    color: white;
+
+    margin-bottom: 20px;
+}
+
+#bookshelf-div {
+    margin: 10px auto;
+}
+
+#bookshelf-div select {
+    /*background-color: #dbdbdb;*/
+}
+
+
+button.btn {
+    height: 40px;
+    /*width: 90px !important;*/
+    /*max-width: 100%;*/
+    margin: auto 5px;
+}
+
+.my-btn {
+    width: 100%;
+}
+
+.button-div {
+    margin: 2px 0;
+}
+
+
+.div-info * {
+    display: inline;
+}
+
+div.row.h-50 {
+    margin-bottom: 15px;
+}
+
+.tag-div {
+    background-color: white;
+    margin: auto 5px;
+}
+
+img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+#info-div {
+    height: 55vh;
+}
+
+.div-max-hg {
+    height: 100%;
+    display: flex;
+    /*justify-content: center;*/
+    align-content: center;
+}
+
+.cover-image {
+
+}
+
+.img-a {
+    /*max-height: 100%;*/
+}
+
+.additional-tags-div {
+    margin-bottom: 10px;
+}
+
+.additional-tag-btn {
+    width: fit-content;
+    margin: 2px 1px !important;
+}
+
+.tag-selected {
+    background-color: #0d6efd;
+    color: white;
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+
+    <title><%= title %></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--     避免連他網的圖片時，出現403-->
+    <meta name="referrer" content="no-referrer"/>
+
+    <link href="public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="public/css/infoPage.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header>
+        <%- include ('partial/header') %>
+    </header>
+
+    <main id="container" class="container">
+        <div id="info-div" class="row row-cols-2">
+            <div class="col-6 col-lg-4 align-self-center div-max-hg">
+                <img id="cover-image" src="<%= cover_src %>">
+            </div>
+            <div class="col-6 col-lg-8">
+                <div class="row h-75">
+                    <div id="div-name" class="div-info">
+                        <p>Name:<br>　　</p><p><%= name %></p>
+                    </div>
+                    <div id="div-type" class="div-info">
+                        <!--<p>分類：<%= types %></p>-->
+                        <p>分類：</p>
+                        <!--onclick="searchByName('<%= types %>', '<%= source %>', 'parody')"-->
+                        <% if (types) { %>
+                            <a class="type-link" href="">
+                                <button class="btn btn-outline-primary type-button"><%= types %></button>
+                            </a>
+                        <% } %>
+                    </div>
+                    <div id="div-source" class="div-info">
+                        <p>來源：<%= source %></p>
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <!--                    <a href="" id="read-a-tag">-->
+                    <!--                        <button class="btn btn-outline-primary" type="button">閱讀</button>-->
+                    <!--                    </a>-->
+                    <!--                    -->
+                    <div class="col-7 col-lg-2 button-div">
+                        <a href="" id="read-a-tag">
+                            <button class="my-btn btn btn-outline-primary" type="button">閱讀</button>
+                        </a>
+                    </div>
+                    <div class="col-7 col-lg-2 button-div">
+                        <button id="add_bookshelf" class="my-btn btn btn-outline-primary" type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#bookshelf_dialog">加入書櫃
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="div-tags" class="div-info">
+                <p>Tags:</p>
+                <% tags.forEach((tag) => { %>
+                    <a class="tag-link" href=""><button class="btn btn-outline-primary tag-button"><%= tag %></button></a>
+                <% }); %>
+            </div>
+        </div>
+    </main>
+
+
+    <div class="modal fade" id="bookshelf_dialog" tabindex="-1" role="dialog"
+         aria-labelledby="bookshelf_dialogLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">選擇書櫃</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <select class="form-select" aria-label="Default select example">
+                                <option>預設</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <button id="add_new_bookshelf_btn" class="btn btn-outline-primary" type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#new_option_modal">增加書櫃
+                            </button>
+                            <!--                            <button id="add_new_bookshelf_btn" class="btn btn-primary>">增加書櫃</button>-->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="add-bookshelf-cancel-btn" type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">取消
+                    </button>
+                    <button id="add_bookshelf_btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">加入書櫃
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="new_option_modal" tabindex="-1" role="dialog"
+         aria-labelledby="bookshelf_dialogLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">選擇書櫃</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="new-bookshelf-name" type="text" class="form-control" placeholder="書櫃名稱"
+                           aria-label="BookshelfName" aria-describedby="basic-addon1">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button id="new-bookshelf-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal">新增此書櫃
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="message-alert" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--                    <h5 class="modal-title"></h5>-->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="alert-message-body"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="public/js/bootstrap.min.js"></script>
+    <script src="public/js/axios.min.js"></script>
+    <script src="public/js/infoPage.js"></script>
+
+</body>
+</html>

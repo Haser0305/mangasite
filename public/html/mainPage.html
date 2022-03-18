@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>本本世界</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
+
+    <!--     避免連他網的圖片時，出現403-->
+    <meta name="referrer" content="no-referrer"/>
+
+    <!-- Bootstrap CSS -->
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/viewer.css" rel="stylesheet">
+</head>
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./mainPage.html">本本世界</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link active" aria-current="page" href="#">Home</a>-->
+                    <!--                    </li>-->
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link" href="#">Link</a>-->
+                    <!--                    </li>-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="websites-selection" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            本本來源
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">source_1</a></li>
+                            <li><a class="dropdown-item" href="#">source_2</a></li>
+                            <!--                            <li>-->
+                            <!--                                <hr class="dropdown-divider">-->
+                            <!--                            </li>-->
+                            <!--                            <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+                        </ul>
+                    </li>
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+                    <!--                    </li>-->
+                </ul>
+                <form class="d-flex" id="name-search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="gallery" id="container">
+        <div class="row row-cols-2 row-cols-md-4 g-1" id="gallery-row">
+
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-between justify-content-center ">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+<!--            <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+            <div class="col-2 col-md-1">
+                <li class="page-item"><input id="page-input" class="form-control" type="number"></li>
+            </div>
+
+<!--            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <script src="../js/jquery-3.6.0.min.js "></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+<!--    <script src="//raw.github.com/botmonster/jquery-bootpag/master/lib/jquery.bootpag.min.js"></script>-->
+    <script src="../js/mainPage.js"></script>
+</body>
+</html>

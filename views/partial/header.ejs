@@ -1,0 +1,215 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/mainPage">本本世界</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!--                    <li class="nav-item">-->
+                <!--                        <a class="nav-link active" aria-current="page" href="#">Home</a>-->
+                <!--                    </li>-->
+                <!--                    <li class="nav-item">-->
+                <!--                        <a class="nav-link" href="#">Link</a>-->
+                <!--                    </li>-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="websites-selection" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        本本來源
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/mainPage?_s=all">全部</a></li>
+                        <li><a class="dropdown-item" href="/mainPage?_s=source_1">source_1</a></li>
+                        <li><a class="dropdown-item" href="/mainPage?_s=source_2">source_2</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/bookShelf" tabindex="-1" aria-disabled="true">書櫃</a>
+                </li>
+                <!--                    <li class="nav-item">-->
+                <!--                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+                <!--                    </li>-->
+            </ul>
+            <form class="d-flex" id="name-search">
+                <!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+                <div class="input-group me-2">
+                    <button id="searching-show-button" class="btn btn-outline-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            style="color: black;">搜尋位置
+
+                    </button>
+                    <ul class="dropdown-menu" id="searching-source">
+                        <li><a class="dropdown-item" href="#" data-source="all">所有</a></li>
+                        <li><a class="dropdown-item" href="#" data-source="source_1">source_1</a></li>
+                        <li><a class="dropdown-item" href="#" data-source="source_2">source_2</a></li>
+                    </ul>
+                    <input type="search" class="form-control" aria-label="Text input with dropdown button"
+                           placeholder="Search">
+                </div>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+            <!--            <div id="name-search" class="input-group mb-3" >-->
+            <!--                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>-->
+            <!--                <ul class="dropdown-menu">-->
+            <!--                    <li><a class="dropdown-item" href="#">Action</a></li>-->
+            <!--                    <li><a class="dropdown-item" href="#">Another action</a></li>-->
+            <!--                    <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+            <!--                    <li><hr class="dropdown-divider"></li>-->
+            <!--                    <li><a class="dropdown-item" href="#">Separated link</a></li>-->
+            <!--                </ul>-->
+            <!--                <input type="text" class="form-control" aria-label="Text input with dropdown button">-->
+            <!--            </div>-->
+
+        </div>
+    </div>
+</nav>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    let search_name = urlParams.get('search_name');
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+
+    function searchByName(name, source, type = null) {
+        if (type) {
+            // window.location.href = `search?source=${source}&search_name=${encodeURI(encodeURI(name))}&type=${type}`;
+            window.location.href = `search?source=${source}&search_name=${name}&type=${type}`;
+        }
+        window.location.href = `search?source=${source}&search_name=${name}`;
+    }
+
+
+    function initDB() {
+        let request = window.indexedDB.open('OpenBook', 1);
+        let db;
+
+        request.onerror = () => {
+            console.log('connect error');
+        };
+
+        request.onsuccess = () => {
+            console.log('connect success');
+            db = request.result;
+
+            let transaction_read = db.transaction(["BookList"], 'readwrite');
+            let objectStore = transaction_read.objectStore("BookList");
+
+            objectStore.openCursor().onsuccess = (event) => {
+                let cursor = event.target.result;
+                if (cursor) {
+                    // console.log(cursor.value);
+                    // console.log((Date.now() - cursor.value.exp) / 1000);
+                    if (Date.now() - cursor.value.exp > 43200000) {
+                        console.log('clear');
+                        objectStore.clear();
+                    }
+                } else {
+                    console.log('Entries all displayed.');
+                }
+            };
+        };
+
+        request.onupgradeneeded = (event) => {
+            console.log('enter upgrade event');
+            db = event.target.result;
+
+            let objectStore = db.createObjectStore('BookList', {keyPath: 'BookID'});
+
+            objectStore.createIndex("exp", "exp", {unique: false});
+        }
+    }
+
+
+    // add listener for prevent submit and set the name search value to url parameter.
+    window.addEventListener('DOMContentLoaded', function () {
+        let forms = document.getElementById('name-search');
+        forms.addEventListener('submit', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            // searchByName(documentn.getElementById)
+
+            searchByName(
+                document.getElementById('name-search').getElementsByTagName('input')[0].value,
+                document.getElementById('searching-show-button').dataset.source
+            )
+        });
+        // decodeURI(window.location.href);
+        if (search_name) {
+            document.getElementById('name-search').getElementsByTagName('input')[0].value = search_name;
+        }
+
+        initDB();
+    })
+
+    // add listener for dropdown items for changing button dataset.
+    let searching_source_items = document.querySelectorAll('#name-search .dropdown-item');
+    for (let i of searching_source_items) {
+        i.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(e.target.innerHTML);
+            document.getElementById('searching-show-button').innerHTML = e.target.innerHTML;
+            document.getElementById('searching-show-button').dataset.source = e.target.dataset.source;
+            if (document.getElementById('name-search').getElementsByTagName('input')[0].value) {
+                searchByName(document.getElementById('name-search').getElementsByTagName('input')[0].value, e.target.dataset.source)
+            }
+        })
+    }
+
+    // like above but for another items.
+    // let items = document.querySelectorAll('.nav-item.dropdown .dropdown-item');
+    // for (let i of items) {
+    //     i.addEventListener('click', clickItem);
+    // }
+
+    if ('<%= errorMessage %>') {
+        alert('<%= errorMessage %>');
+    }
+
+
+    function init_localStorage() {
+        let date = new Date();
+        let current_time = '' + (date.getMonth() + 1) + date.getDate();
+        if (current_time !== localStorage.getItem('create_date')) {
+            console.log('localstorage clear()');
+            localStorage.clear();
+            localStorage.setItem('create_date', current_time);
+            // localStorage.setItem('total_tabs', '0');
+            // localStorage.setItem('page_count', '0');
+            localStorage.setItem('update_total_pages', 'false');
+            localStorage.setItem('source_1-tabs', '[]');
+            localStorage.setItem('source_1-waiting-tabs', '[]');
+            localStorage.setItem('source_2-waiting-tabs', '[]');
+            localStorage.setItem('source_2-tabs', '[]');
+
+        }
+    }
+
+    init_localStorage();
+
+
+    // function clickItem(e) {
+    //     // console.log(e);
+    //     // e.preventDefault();
+    // }
+</script>

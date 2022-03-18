@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Read</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
+
+    <!--     避免連他網的圖片時，出現403-->
+    <meta name="referrer" content="no-referrer"/>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/readingPage.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="index-viewer">
+        <p>current tab index: </p>
+        <p id="current-tab-index">-1</p>
+    </div>
+
+    <div class="container" id="image-content">
+        <!--        <div class="image-container">-->
+        <!--            <img class="image" src="./16162542643574.jpg" alt="page1">-->
+        <!--            <p class="page" id="page-1">1/20</p>-->
+        <!--        </div>-->
+        <!--        <div class="image-container">-->
+        <!--            <img class="image" src="./2-horz.jpg" alt="page1">-->
+        <!--            <p class="page">1/20</p>-->
+        <!--        </div>-->
+    </div>
+
+    <button type="button" class="" id="btn-back-to-previous-page">
+        <!--        <i class="fa-arrow-left"></i>-->
+        <img src="/public/img/left-arrow.png">
+    </button>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/readingPage.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        @media only screen and (min-width: 768px) {
+            #loginForm {
+                width: 20vw;
+                margin: auto;
+                Position: absolute;
+                top: 30vh;
+                left: 40%;
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+    <form id="loginForm" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="InputUsername" class="form-label">使用者名稱</label>
+
+            <div class="input-group has-validation">
+                <input type="text" class="form-control" id="InputUsername" required>
+                <div class="invalid-feedback">
+                    Please choose a username.
+                </div>
+            </div>
+
+        </div>
+        <div class="mb-3">
+            <label for="InputPassword" class="form-label">密碼</label>
+            <div class="input-group has-validation">
+                <input type="password" class="form-control" id="InputPassword" required>
+                <div class="invalid-feedback">
+                    Please choose a username.
+                </div>
+            </div>
+
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="RememberMe">
+            <label class="form-check-label" for="RememberMe">記住我</label>
+        </div>
+        <button id="login-btn" type="button" class="btn btn-primary">登入</button>
+    </form>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+
+    <script>
+
+        // let forms = document.querySelectorAll('.needs-validation');
+        let form = document.getElementById('loginForm');
+        let login_btn = document.getElementById('login-btn');
+        let inputs = document.querySelectorAll('input');
+
+        Array.prototype.slice.call(inputs)
+            .forEach((input) => {
+                input.addEventListener('keyup', (event) => {
+                    if (event.keyCode === 13) {
+                        login_btn.click();
+                    }
+                })
+            })
+
+
+        login_btn.addEventListener('click', (event) => {
+            if (form.checkValidity()) {
+                login();
+            } else {
+                form.classList.add('was-validated')
+            }
+        })
+
+        async function login() {
+
+            let response = await axios.post('/login', {
+                username: document.getElementById('InputUsername').value,
+                password: document.getElementById('InputPassword').value,
+                rememberMe: document.getElementById('RememberMe').checked
+            })
+
+            if (response.data.token) {
+                // let now = new Date();
+                // now.setTime(now.getTime() + 604800000);
+                // document.cookie = `token=${response.data.token};path=/;Expires=${now.toUTCString()}`;
+                window.location.href = '/mainPage';
+            } else {
+                alert('帳號或密碼錯誤');
+            }
+        }
+
+    </script>
+</body>
+</html>

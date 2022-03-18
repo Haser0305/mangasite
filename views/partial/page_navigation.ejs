@@ -1,0 +1,57 @@
+<ul class="pagination justify-content-between justify-content-center pagination-lg align-items-center">
+    <li class="page-item <% if(page === 1) { %> disabled <% } %>">
+        <!--                    <a class="page-link" href="/mainPage?page=<%= page - 1 %>"-->
+        <!--                       aria-label="Previous">                    -->
+        <a class="page-link" href="<% router %>?_s=<%= source %>&<%= href_string_before_page %>&page=<%= page - 1 %>"
+           aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+
+    <!--            <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+    <!--            <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+    <div class="col-2 col-md-1">
+        <li class="page-item"><input id="page-input" class="form-control" type="number" placeholder=
+            <%= page %>
+            ></li>
+    </div>
+
+    <!--            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+    <li class="page-item <% if(page === total_page) { %> disabled <% } %>">
+        <!--                    <a class="page-link" href="/mainPage?page=<%= page + 1 %>" aria-label="Next">-->
+        <a class="page-link" href="<% router %>?_s=<%= source %>&<%= href_string_before_page %>&page=<%= page + 1 %>"
+           aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+</ul>
+
+<script>
+    window.addEventListener('load', function () {
+        // let href_prefix = '/mainPage?page='
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+
+        // Loop over them and prevent submission
+
+        document.getElementById('page-input').addEventListener('keyup', (event) => {
+            if (event.keyCode === 13) {
+                if (location.search.match('page')) {
+                    location.href =
+                        location.pathname + document.location.search.replace(/page=\d*/, 'page=') + event.target.value;
+                } else {
+                    if (location.search.match(/\?/)) {
+                        window.location.href = location.href + `&page=${event.target.value}`;
+                    } else {
+                        window.location.href = location.href + `?page=${event.target.value}`;
+                    }
+
+                }
+
+            }
+        });
+    });
+
+    console.log(<%= total_page %>);
+
+
+</script>
